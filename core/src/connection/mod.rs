@@ -67,7 +67,10 @@ pub fn authenticate(transport: Transport, credentials: Credentials, device_id: S
                 Ok((transport, reusable_credentials))
             }
 
-            Some((0xad, _)) => panic!("Authentication failed"),
+            Some((0xad, _)) => {
+                error!("An error occurred whilst authenticating. This is likely due an incorrect password or the use of a free account.");
+                panic!("Authentication failed")
+            },
             Some((cmd, _)) => panic!("Unexpected packet {:?}", cmd),
             None => panic!("EOF"),
         }
